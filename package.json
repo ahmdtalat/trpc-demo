@@ -4,12 +4,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev:next": "next dev",
+    "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start",
-    "dev:ws": "tsx watch src/server/ws.ts --tsconfig tsconfig.server.json",
-    "dev": "run-p dev:*"
+    "start": "next start"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",

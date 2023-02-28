@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { observable } from "@trpc/server/observable";
 import type { User, Message } from "@prisma/client";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -8,20 +7,6 @@ export type UserMessage = Message & {
 };
 
 export const chatRouter = createTRPCRouter({
-  onAdd: protectedProcedure.subscription(({ ctx }) => {
-    return observable<UserMessage>((emit) => {
-      const onAdd = (data: UserMessage) => {
-        emit.next(data);
-      };
-
-      ctx.ee.on("add", onAdd);
-
-      return () => {
-        ctx.ee.off("add", onAdd);
-      };
-    });
-  }),
-
   sendMsg: protectedProcedure
     .input(z.object({ body: z.string() }))
     .mutation(async ({ input, ctx }) => {
@@ -34,8 +19,6 @@ export const chatRouter = createTRPCRouter({
           User: true,
         },
       });
-
-      ctx.ee.emit("add", msg);
 
       return msg;
     }),

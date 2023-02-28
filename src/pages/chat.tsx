@@ -58,10 +58,8 @@ const Chat = ({
     }
   );
 
-  const sendMsgMutation = api.chat.sendMsg.useMutation();
-
-  api.chat.onAdd.useSubscription(undefined, {
-    onData(newMsg) {
+  const sendMsgMutation = api.chat.sendMsg.useMutation({
+    onSuccess(newMsg) {
       setMsg("");
       setMessages((current) => [...current, newMsg]);
     },
